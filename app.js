@@ -37,6 +37,13 @@ const showToast = (message) => {
 };
 
 const normalizePhone = (value) => value.replace(/\D/g, "");
+const normalizeRussianPhone = (value) => {
+  const digits = normalizePhone(value);
+  if (!digits) return "";
+  if (digits.startsWith("7")) return `7${digits.slice(1, 11)}`;
+  if (digits.startsWith("8")) return `7${digits.slice(1, 11)}`;
+  return `7${digits.slice(0, 10)}`;
+};
 
 const formatPhone = (digits) => {
   const d = digits.slice(0, 11);
@@ -44,30 +51,26 @@ const formatPhone = (digits) => {
 };
 
 phoneInput.addEventListener("input", () => {
-  let digits = normalizePhone(phoneInput.value);
+  const digits = normalizeRussianPhone(phoneInput.value);
   if (!digits) {
     phoneInput.value = "";
     phoneInput.classList.remove("input-error");
     phoneError.textContent = "";
     return;
   }
-  if (digits.startsWith("8")) digits = `7${digits.slice(1)}`;
-  if (!digits.startsWith("7")) digits = `7${digits}`;
   phoneInput.value = formatPhone(digits);
   phoneInput.classList.remove("input-error");
   phoneError.textContent = "";
 });
 
 callbackPhoneInput.addEventListener("input", () => {
-  let digits = normalizePhone(callbackPhoneInput.value);
+  const digits = normalizeRussianPhone(callbackPhoneInput.value);
   if (!digits) {
     callbackPhoneInput.value = "";
     callbackPhoneInput.classList.remove("input-error");
     callbackError.textContent = "";
     return;
   }
-  if (digits.startsWith("8")) digits = `7${digits.slice(1)}`;
-  if (!digits.startsWith("7")) digits = `7${digits}`;
   callbackPhoneInput.value = formatPhone(digits);
   callbackPhoneInput.classList.remove("input-error");
   callbackError.textContent = "";
@@ -76,9 +79,9 @@ callbackPhoneInput.addEventListener("input", () => {
 const validatePhoneStep = () => {
   const digits = normalizePhone(phoneInput.value);
 
-  if (digits.length !== 11) {
+  if (digits.length !== 11 || !digits.startsWith("7")) {
     phoneInput.classList.add("input-error");
-    phoneError.textContent = "Проверьте номер: нужен формат +79991234567.";
+    phoneError.textContent = "Принимаем только российские номера в формате +79991234567.";
     return false;
   }
 
@@ -267,9 +270,9 @@ document.getElementById("callbackBtn").addEventListener("click", () => {
   callbackPhoneInput.classList.remove("input-error");
   callbackError.textContent = "";
 
-  if (digits.length !== 11) {
+  if (digits.length !== 11 || !digits.startsWith("7")) {
     callbackPhoneInput.classList.add("input-error");
-    callbackError.textContent = "Проверьте номер: нужен формат +79991234567.";
+    callbackError.textContent = "Принимаем только российские номера в формате +79991234567.";
     return;
   }
 
