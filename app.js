@@ -1,5 +1,6 @@
 const screens = [...document.querySelectorAll(".screen")];
 const toast = document.getElementById("toast");
+const helpBtn = document.getElementById("helpBtn");
 
 const phoneInput = document.getElementById("phoneInput");
 const consent = document.getElementById("consent");
@@ -27,6 +28,7 @@ const showScreen = (name) => {
     const active = screen.dataset.screen === name;
     screen.classList.toggle("is-active", active);
   });
+  helpBtn.hidden = name === "success";
 };
 
 const showToast = (message) => {
@@ -117,7 +119,7 @@ const startCountdown = () => {
 document.getElementById("continueBtn").addEventListener("click", () => {
   if (!validatePhoneStep()) return;
   otpSubtitle.textContent = `Отправили код через push или SMS: ${phoneInput.value}`;
-  otpDeliveryNote.textContent = "При следующем запросе отправим код через push или SMS.";
+  otpDeliveryNote.textContent = "";
   otpInput.value = "";
   otpError.textContent = "";
   resendRequests = 0;
