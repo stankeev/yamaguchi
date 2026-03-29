@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Авторизация · Mobile Redesign</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell" aria-live="polite">
+      <header class="status-row">
+        <p class="brand">Yamaguchi ID</p>
+        <button class="ghost-btn" id="helpBtn" type="button">Помощь</button>
+      </header>
+
+      <section class="screen is-active" data-screen="phone">
+        <div class="hero-card">
+          <p class="eyebrow">Вход</p>
+          <h1>Добро пожаловать</h1>
+          <p class="muted">Войдите по номеру телефона. Код придет в SMS за пару секунд.</p>
+        </div>
+
+        <div class="card-stack">
+          <label class="field">
+            <span>Телефон</span>
+            <input id="phoneInput" inputmode="tel" placeholder="+7 (___) ___-__-__" maxlength="18" />
+            <small class="field-hint" id="phoneHint">Формат: +7 999 123-45-67</small>
+          </label>
+
+          <label class="toggle-row">
+            <input id="consent" type="checkbox" />
+            <span class="consent-text">
+              Я принимаю <a href="#" aria-label="Пользовательское соглашение">пользовательское соглашение</a>
+              и <a href="#" aria-label="Политика">политику конфиденциальности</a>
+            </span>
+          </label>
+
+          <button class="cta" id="continueBtn" type="button">Получить код</button>
+          <p class="error" id="phoneError"></p>
+        </div>
+
+        <div class="alt-login">
+          <p>Или войти через</p>
+          <div class="social-grid">
+            <button class="social-btn" type="button">Yandex ID</button>
+            <button class="social-btn" type="button">MTS ID</button>
+          </div>
+          <div class="links-row">
+            <button class="link-btn" id="otherRegionBtn" type="button">Не из России</button>
+            <button class="link-btn" id="noCodeHelpBtn" type="button">Код не приходит</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="otp">
+        <div class="hero-card compact">
+          <button class="back-btn" data-back="phone" type="button">← Назад</button>
+          <h2>Код из SMS</h2>
+          <p class="muted" id="otpSubtitle">Отправили на номер</p>
+        </div>
+
+        <div class="card-stack">
+          <label class="field">
+            <span>Код</span>
+            <input id="otpInput" inputmode="numeric" placeholder="6 цифр" maxlength="6" />
+          </label>
+
+          <div class="otp-meta">
+            <p id="timer">Повторная отправка через 00:30</p>
+            <button class="link-btn" id="resendBtn" type="button" disabled>Отправить снова</button>
+          </div>
+
+          <button class="cta" id="verifyBtn" type="button">Подтвердить</button>
+          <button class="secondary" id="wrongNumberBtn" type="button">Изменить номер</button>
+          <p class="error" id="otpError"></p>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="password">
+        <div class="hero-card compact">
+          <button class="back-btn" data-back="otp" type="button">← Назад</button>
+          <h2>Введите пароль</h2>
+          <p class="muted">Для безопасности подтвердите вход паролем.</p>
+        </div>
+
+        <div class="card-stack">
+          <label class="field">
+            <span>Пароль</span>
+            <input id="passInput" type="password" placeholder="Минимум 8 символов" />
+          </label>
+
+          <button class="cta" id="loginBtn" type="button">Войти</button>
+          <button class="secondary" id="resetPassBtn" type="button">Забыли пароль?</button>
+          <p class="error" id="passError"></p>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="support">
+        <div class="hero-card compact">
+          <button class="back-btn" data-back="phone" type="button">← Назад</button>
+          <h2>Не получается войти?</h2>
+          <p class="muted">Выберите причину, и мы подскажем быстрый путь.</p>
+        </div>
+
+        <div class="card-stack support-list">
+          <button class="support-item" type="button" data-support="sms">SMS не приходит</button>
+          <button class="support-item" type="button" data-support="blocked">Номер заблокирован</button>
+          <button class="support-item" type="button" data-support="abroad">Нужен вход из-за рубежа</button>
+          <button class="cta" data-back="phone" type="button">Вернуться к входу</button>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="email">
+        <div class="hero-card compact">
+          <button class="back-btn" data-back="phone" type="button">← Назад</button>
+          <h2>Вход по email</h2>
+          <p class="muted">Используйте почту, если номер недоступен в вашем регионе.</p>
+        </div>
+
+        <div class="card-stack">
+          <label class="field">
+            <span>Email</span>
+            <input id="emailInput" type="email" inputmode="email" placeholder="name@example.com" />
+            <small class="field-hint">Например: hello@yamaguchi.com</small>
+          </label>
+
+          <label class="field">
+            <span>Пароль</span>
+            <input id="emailPassInput" type="password" placeholder="Минимум 8 символов" />
+          </label>
+
+          <button class="cta" id="emailLoginBtn" type="button">Войти</button>
+          <button class="secondary" data-back="phone" type="button">Войти по номеру</button>
+          <p class="error" id="emailError"></p>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="success">
+        <div class="success-wrap" role="status" aria-label="Вы успешно вошли">
+          <div class="success-check" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="32" r="30"></circle>
+              <path d="M18 33.5L27.5 43L46.5 23.5"></path>
+            </svg>
+          </div>
+          <h2>Вы успешно вошли</h2>
+        </div>
+      </section>
+
+      <aside class="toast" id="toast" aria-live="assertive"></aside>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
