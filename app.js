@@ -7,16 +7,20 @@ const phoneError = document.getElementById("phoneError");
 const otpSubtitle = document.getElementById("otpSubtitle");
 const otpInput = document.getElementById("otpInput");
 const otpError = document.getElementById("otpError");
+const otpDeliveryNote = document.getElementById("otpDeliveryNote");
 const passInput = document.getElementById("passInput");
 const passError = document.getElementById("passError");
 const emailInput = document.getElementById("emailInput");
 const emailPassInput = document.getElementById("emailPassInput");
 const emailError = document.getElementById("emailError");
+const callbackPhoneInput = document.getElementById("callbackPhoneInput");
+const callbackError = document.getElementById("callbackError");
 const timerLabel = document.getElementById("timer");
 const resendBtn = document.getElementById("resendBtn");
 
 let countdown = 30;
 let countdownTimer = null;
+let resendRequests = 0;
 
 const showScreen = (name) => {
   screens.forEach((screen) => {
@@ -56,6 +60,15 @@ phoneInput.addEventListener("input", () => {
   phoneInput.value = formatPhone(digits);
   phoneInput.classList.remove("input-error");
   phoneError.textContent = "";
+});
+
+callbackPhoneInput.addEventListener("input", () => {
+  let digits = normalizePhone(callbackPhoneInput.value);
+  if (digits.startsWith("8")) digits = `7${digits.slice(1)}`;
+  if (!digits.startsWith("7")) digits = `7${digits}`;
+  callbackPhoneInput.value = formatPhone(digits);
+  callbackPhoneInput.classList.remove("input-error");
+  callbackError.textContent = "";
 });
 
 const validatePhoneStep = () => {
@@ -98,9 +111,11 @@ const startCountdown = () => {
 
 document.getElementById("continueBtn").addEventListener("click", () => {
   if (!validatePhoneStep()) return;
-  otpSubtitle.textContent = `Отправили код на ${phoneInput.value}`;
+  otpSubtitle.textContent = `Отправили код через push или SMS на ${phoneInput.value}`;
+  otpDeliveryNote.textContent = "При следующем запросе отправим код через push или SMS.";
   otpInput.value = "";
   otpError.textContent = "";
+  resendRequests = 0;
   showScreen("otp");
   startCountdown();
 });
@@ -134,8 +149,26 @@ document.getElementById("wrongNumberBtn").addEventListener("click", () => {
 });
 
 resendBtn.addEventListener("click", () => {
+  resendRequests += 1;
+
+  if (resendRequests >= 3) {
+    callbackPhoneInput.value = phoneInput.value;
+    callbackError.textContent = "";
+    showScreen("callback");
+    return;
+  }
+
   otpInput.value = "";
-  showToast("Новый код отправлен");
+  if (resendRequests === 1) {
+    otpDeliveryNote.textContent = "Если запросите код ещё раз, отправим его также на e-mail.";
+    showToast("Повторно отправили код через push или SMS.");
+  }
+
+  if (resendRequests === 2) {
+    otpDeliveryNote.textContent = "Отправили код через push/SMS и на e-mail.";
+    showToast("Код отправлен через push/SMS и на e-mail.");
+  }
+
   startCountdown();
 });
 
@@ -193,6 +226,9 @@ document.getElementById("emailLoginBtn").addEventListener("click", () => {
 
 document.getElementById("helpBtn").addEventListener("click", () => showScreen("support"));
 document.getElementById("noCodeHelpBtn").addEventListener("click", () => showScreen("support"));
+document.getElementById("contactSupportBtn").addEventListener("click", () => {
+  showToast("Откроем чат поддержки в следующем релизе.");
+});
 document.getElementById("otherRegionBtn").addEventListener("click", () => {
   emailInput.value = "";
   emailPassInput.value = "";
@@ -222,4 +258,19 @@ document.querySelectorAll(".support-item").forEach((button) => {
     }
     showToast(messages[key]);
   });
+});
+
+document.getElementById("callbackBtn").addEventListener("click", () => {
+  const digits = normalizePhone(callbackPhoneInput.value);
+  callbackPhoneInput.classList.remove("input-error");
+  callbackError.textContent = "";
+
+  if (digits.length !== 11) {
+    callbackPhoneInput.classList.add("input-error");
+    callbackError.textContent = "Укажите корректный номер телефона.";
+    return;
+  }
+
+  showToast("Заявка принята. Сотрудник свяжется с вами.");
+  showScreen("phone");
 });

@@ -21,9 +21,9 @@
 
       <section class="screen is-active" data-screen="phone">
         <div class="hero-card">
-          <p class="eyebrow">Вход</p>
+          <p class="eyebrow">Вход и регистрация</p>
           <h1>Добро пожаловать</h1>
-          <p class="muted">Войдите по номеру телефона. Код придет в SMS за пару секунд.</p>
+          <p class="muted">Продолжите по номеру телефона. Код отправим через push или SMS.</p>
         </div>
 
         <div class="card-stack">
@@ -61,7 +61,7 @@
       <section class="screen" data-screen="otp">
         <div class="hero-card compact">
           <button class="back-btn" data-back="phone" type="button">← Назад</button>
-          <h2>Код из SMS</h2>
+          <h2>Код подтверждения</h2>
           <p class="muted" id="otpSubtitle">Отправили на номер</p>
         </div>
 
@@ -75,6 +75,7 @@
             <p id="timer">Повторная отправка через 00:30</p>
             <button class="link-btn" id="resendBtn" type="button" disabled>Отправить снова</button>
           </div>
+          <p class="otp-note" id="otpDeliveryNote">При следующем запросе отправим код через push или SMS.</p>
 
           <button class="cta" id="verifyBtn" type="button">Подтвердить</button>
           <button class="secondary" id="wrongNumberBtn" type="button">Изменить номер</button>
@@ -112,6 +113,7 @@
           <button class="support-item" type="button" data-support="sms">SMS не приходит</button>
           <button class="support-item" type="button" data-support="blocked">Номер заблокирован</button>
           <button class="support-item" type="button" data-support="abroad">Нужен вход из-за рубежа</button>
+          <button class="secondary" id="contactSupportBtn" type="button">Написать в поддержку</button>
           <button class="cta" data-back="phone" type="button">Вернуться к входу</button>
         </div>
       </section>
@@ -138,6 +140,26 @@
           <button class="cta" id="emailLoginBtn" type="button">Войти</button>
           <button class="secondary" data-back="phone" type="button">Войти по номеру</button>
           <p class="error" id="emailError"></p>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="callback">
+        <div class="hero-card compact">
+          <button class="back-btn" data-back="otp" type="button">← Назад</button>
+          <h2>Поможем войти</h2>
+          <p class="muted">
+            С вами свяжется наш сотрудник и поможет вам. Укажите номер телефона и нажмите кнопку ниже.
+          </p>
+        </div>
+
+        <div class="card-stack">
+          <label class="field">
+            <span>Телефон</span>
+            <input id="callbackPhoneInput" inputmode="tel" placeholder="+7 (___) ___-__-__" maxlength="18" />
+          </label>
+
+          <button class="cta" id="callbackBtn" type="button">Связаться со мной</button>
+          <p class="error" id="callbackError"></p>
         </div>
       </section>
 

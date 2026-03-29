@@ -262,16 +262,29 @@ body {
 }
 
 .otp-meta {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 10px;
+  min-height: 24px;
 }
 
 .otp-meta p {
   margin: 0;
   color: var(--muted);
   font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.otp-note {
+  margin: -2px 0 2px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+  min-height: 32px;
+  text-align: left;
 }
 
 #resendBtn[disabled] {
@@ -316,16 +329,16 @@ body {
 }
 
 .success-check circle {
-  fill: rgba(15, 157, 88, 0.08);
-  stroke: rgba(15, 157, 88, 0.26);
-  stroke-width: 2;
+  fill: rgba(15, 157, 88, 0.06);
+  stroke: #0f9d58;
+  stroke-width: 3;
   transform-origin: 50% 50%;
   animation: successPop 600ms ease-out forwards;
 }
 
 .success-check path {
   stroke: #0f9d58;
-  stroke-width: 5;
+  stroke-width: 4;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 80;
@@ -396,5 +409,9 @@ body {
     min-height: 100svh;
     border-radius: 0;
     padding: 10px;
+  }
+
+  .otp-meta p {
+    max-width: 190px;
   }
 }
