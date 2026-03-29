@@ -246,13 +246,6 @@ body {
   border: 0;
 }
 
-.links-row {
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-}
-
 .link-btn {
   border: 0;
   background: transparent;
@@ -260,6 +253,31 @@ body {
   font-weight: 700;
   font-size: 14px;
   padding: 2px;
+}
+
+.quick-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.action-link {
+  min-height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--accent-deep);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+  padding: 0 4px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.quick-links .action-link:last-child {
+  text-align: right;
 }
 
 .otp-meta {
