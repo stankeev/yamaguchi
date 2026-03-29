@@ -40,21 +40,17 @@ const normalizePhone = (value) => value.replace(/\D/g, "");
 
 const formatPhone = (digits) => {
   const d = digits.slice(0, 11);
-  const p1 = d.slice(1, 4);
-  const p2 = d.slice(4, 7);
-  const p3 = d.slice(7, 9);
-  const p4 = d.slice(9, 11);
-  let result = "+7";
-  if (p1) result += ` (${p1}`;
-  if (p1.length === 3) result += ")";
-  if (p2) result += ` ${p2}`;
-  if (p3) result += `-${p3}`;
-  if (p4) result += `-${p4}`;
-  return result;
+  return d ? `+${d}` : "";
 };
 
 phoneInput.addEventListener("input", () => {
   let digits = normalizePhone(phoneInput.value);
+  if (!digits) {
+    phoneInput.value = "";
+    phoneInput.classList.remove("input-error");
+    phoneError.textContent = "";
+    return;
+  }
   if (digits.startsWith("8")) digits = `7${digits.slice(1)}`;
   if (!digits.startsWith("7")) digits = `7${digits}`;
   phoneInput.value = formatPhone(digits);
@@ -64,6 +60,12 @@ phoneInput.addEventListener("input", () => {
 
 callbackPhoneInput.addEventListener("input", () => {
   let digits = normalizePhone(callbackPhoneInput.value);
+  if (!digits) {
+    callbackPhoneInput.value = "";
+    callbackPhoneInput.classList.remove("input-error");
+    callbackError.textContent = "";
+    return;
+  }
   if (digits.startsWith("8")) digits = `7${digits.slice(1)}`;
   if (!digits.startsWith("7")) digits = `7${digits}`;
   callbackPhoneInput.value = formatPhone(digits);
@@ -76,12 +78,12 @@ const validatePhoneStep = () => {
 
   if (digits.length !== 11) {
     phoneInput.classList.add("input-error");
-    phoneError.textContent = "Проверьте номер: должно быть 11 цифр.";
+    phoneError.textContent = "Проверьте номер: нужен формат +79991234567.";
     return false;
   }
 
   if (!consent.checked) {
-    phoneError.textContent = "Нужно принять соглашение, чтобы продолжить.";
+    phoneError.textContent = "Примите условия, чтобы продолжить.";
     return false;
   }
 
@@ -111,7 +113,7 @@ const startCountdown = () => {
 
 document.getElementById("continueBtn").addEventListener("click", () => {
   if (!validatePhoneStep()) return;
-  otpSubtitle.textContent = `Отправили код через push или SMS на ${phoneInput.value}`;
+  otpSubtitle.textContent = `Отправили код через push или SMS: ${phoneInput.value}`;
   otpDeliveryNote.textContent = "При следующем запросе отправим код через push или SMS.";
   otpInput.value = "";
   otpError.textContent = "";
@@ -127,17 +129,17 @@ document.getElementById("verifyBtn").addEventListener("click", () => {
 
   if (!/^\d{6}$/.test(value)) {
     otpInput.classList.add("input-error");
-    otpError.textContent = "Введите 6 цифр из SMS.";
+    otpError.textContent = "Введите 6 цифр из сообщения.";
     return;
   }
 
   if (value === "000000") {
-    otpError.textContent = "Код истёк. Запросите новый.";
+    otpError.textContent = "Срок кода истёк. Запросите новый.";
     return;
   }
 
   if (value !== "123456") {
-    otpError.textContent = "Неверный код. Попробуйте ещё раз.";
+    otpError.textContent = "Код не совпал. Попробуйте ещё раз.";
     return;
   }
 
@@ -161,12 +163,12 @@ resendBtn.addEventListener("click", () => {
   otpInput.value = "";
   if (resendRequests === 1) {
     otpDeliveryNote.textContent = "Если запросите код ещё раз, отправим его также на e-mail.";
-    showToast("Повторно отправили код через push или SMS.");
+    showToast("Готово, повторно отправили код через push или SMS.");
   }
 
   if (resendRequests === 2) {
     otpDeliveryNote.textContent = "Отправили код через push/SMS и на e-mail.";
-    showToast("Код отправлен через push/SMS и на e-mail.");
+    showToast("Отправили код через push/SMS и дополнительно на e-mail.");
   }
 
   startCountdown();
@@ -192,7 +194,7 @@ document.getElementById("loginBtn").addEventListener("click", () => {
 });
 
 document.getElementById("resetPassBtn").addEventListener("click", () => {
-  showToast("Ссылка на восстановление отправлена на номер телефона");
+  showToast("Отправили ссылку на восстановление.");
 });
 
 document.getElementById("emailLoginBtn").addEventListener("click", () => {
@@ -227,7 +229,7 @@ document.getElementById("emailLoginBtn").addEventListener("click", () => {
 document.getElementById("helpBtn").addEventListener("click", () => showScreen("support"));
 document.getElementById("noCodeHelpBtn").addEventListener("click", () => showScreen("support"));
 document.getElementById("contactSupportBtn").addEventListener("click", () => {
-  showToast("Откроем чат поддержки в следующем релизе.");
+  showToast("Чат поддержки откроем в следующем обновлении.");
 });
 document.getElementById("otherRegionBtn").addEventListener("click", () => {
   emailInput.value = "";
@@ -244,8 +246,8 @@ document.querySelectorAll(".support-item").forEach((button) => {
   button.addEventListener("click", () => {
     const key = button.dataset.support;
     const messages = {
-      sms: "Проверьте спам и блокировку SMS от коротких номеров.",
-      blocked: "Аккаунт проверяется. Обычно это занимает до 15 минут.",
+      sms: "Проверьте папку спама и блокировку SMS от коротких номеров.",
+      blocked: "Проверяем аккаунт. Обычно это занимает до 15 минут.",
       abroad: "Открываем вход по email."
     };
     if (key === "abroad") {
@@ -267,10 +269,10 @@ document.getElementById("callbackBtn").addEventListener("click", () => {
 
   if (digits.length !== 11) {
     callbackPhoneInput.classList.add("input-error");
-    callbackError.textContent = "Укажите корректный номер телефона.";
+    callbackError.textContent = "Проверьте номер: нужен формат +79991234567.";
     return;
   }
 
-  showToast("Заявка принята. Сотрудник свяжется с вами.");
+  showToast("Заявка принята. Сотрудник скоро свяжется с вами.");
   showScreen("phone");
 });

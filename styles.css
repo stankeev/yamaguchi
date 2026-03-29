@@ -170,19 +170,20 @@ body {
 
 .toggle-row {
   display: grid;
-  grid-template-columns: 20px 1fr;
-  gap: 6px;
+  grid-template-columns: 18px 1fr;
+  gap: 4px;
   align-items: start;
   font-size: 14px;
   color: var(--muted);
 }
 
 .toggle-row input {
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .consent-text {
   line-height: 1.32;
+  transform: translateX(-1px);
 }
 
 .toggle-row a {
@@ -301,6 +302,17 @@ body {
   padding: 0 14px;
   background: #f7f8fc;
   border: 0;
+}
+
+.support-secondary {
+  text-align: left;
+  padding: 0 14px;
+}
+
+#otpSubtitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .success-wrap {

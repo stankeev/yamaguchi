@@ -29,15 +29,15 @@
         <div class="card-stack">
           <label class="field">
             <span>Телефон</span>
-            <input id="phoneInput" inputmode="tel" placeholder="+7 (___) ___-__-__" maxlength="18" />
-            <small class="field-hint" id="phoneHint">Формат: +7 999 123-45-67</small>
+            <input id="phoneInput" inputmode="tel" placeholder="+79991234567" maxlength="12" />
+            <small class="field-hint" id="phoneHint">Формат: +79991234567</small>
           </label>
 
           <label class="toggle-row">
             <input id="consent" type="checkbox" />
             <span class="consent-text">
-              Я принимаю <a href="#" aria-label="Пользовательское соглашение">пользовательское соглашение</a>
-              и <a href="#" aria-label="Политика">политику конфиденциальности</a>
+              Я принимаю <a href="#" aria-label="Пользовательское соглашение">пользовательское&nbsp;соглашение</a>
+              и&nbsp;<a href="#" aria-label="Политика">политику&nbsp;конфиденциальности</a>
             </span>
           </label>
 
@@ -113,7 +113,7 @@
           <button class="support-item" type="button" data-support="sms">SMS не приходит</button>
           <button class="support-item" type="button" data-support="blocked">Номер заблокирован</button>
           <button class="support-item" type="button" data-support="abroad">Нужен вход из-за рубежа</button>
-          <button class="secondary" id="contactSupportBtn" type="button">Написать в поддержку</button>
+          <button class="secondary support-secondary" id="contactSupportBtn" type="button">Написать в поддержку</button>
           <button class="cta" data-back="phone" type="button">Вернуться к входу</button>
         </div>
       </section>
@@ -148,17 +148,17 @@
           <button class="back-btn" data-back="otp" type="button">← Назад</button>
           <h2>Поможем войти</h2>
           <p class="muted">
-            С вами свяжется наш сотрудник и поможет вам. Укажите номер телефона и нажмите кнопку ниже.
+            С&nbsp;вами свяжется наш сотрудник и поможет. Укажите номер телефона и нажмите кнопку ниже.
           </p>
         </div>
 
         <div class="card-stack">
           <label class="field">
             <span>Телефон</span>
-            <input id="callbackPhoneInput" inputmode="tel" placeholder="+7 (___) ___-__-__" maxlength="18" />
+            <input id="callbackPhoneInput" inputmode="tel" placeholder="+79991234567" maxlength="12" />
           </label>
 
-          <button class="cta" id="callbackBtn" type="button">Связаться со мной</button>
+          <button class="cta" id="callbackBtn" type="button">Свяжитесь со мной</button>
           <p class="error" id="callbackError"></p>
         </div>
       </section>
